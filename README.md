@@ -1,6 +1,6 @@
 # insightdata_project
 Real Time Venmo User Ananlytics
-
+https://github.com/nayoonwoo8899/insightdata_project
 1. Motivation
 
 As a mobile payment service owned by PayPal, venmo allows users to make and share payment with other users who are connected.
@@ -10,6 +10,7 @@ Armed by its convenient feature (you can split dinner with 3 people in 10 second
 On this project, I developed pipeline to provide platform to perform real time Venmo user analytics (gender, age range, location etc) that can be used by various researchers and marketing group as well as data scientist for their project.
 
 [1] https://www.fool.com/investing/2017/03/22/why-venmo-is-so-popular-with-millennials.aspx
+
 [2] Gagliordi, Natalie (April 26, 2018). "PayPal adds 8 million new active users in Q1". ZDNet
 
 
