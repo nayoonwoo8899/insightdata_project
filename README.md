@@ -14,16 +14,18 @@ On this project, I developed pipeline to provide platform to perform real time V
 
 [2] Gagliordi, Natalie (April 26, 2018). "PayPal adds 8 million new active users in Q1". ZDNet
 
+
 2. Initial Data & Data Generation
+
 Since I was unable to have access to sufficient amount of streaming data via Venmo API, I generated streaming data.
 Due to the privacy concern, Venmo doesn't release user information regarding age, gender, location, user information is generated too.
 Initial Venmo transaction data (JSON format) is stored is AWS S3 bucket.
 
 3. Pipeline
-<img width="756" alt="pipeline0" src="https://user-images.githubusercontent.com/41222469/45602626-7e2cfd00-b9ef-11e8-94d6-9a04b8a4ad4a.png">
-
-Spark is used for batch processing of the existing data and Spark streaming will provide real time analytics of users.
 
 
+Spark is used for batch processing of the existing data and Spark streaming will provide real time analytics.
 
-3. Data Generation
+4. Github Repo Structure
+
+
