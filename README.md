@@ -21,10 +21,12 @@ On this project, I developed pipeline to provide platform to perform real time V
 [2] Gagliordi, Natalie (April 26, 2018). "PayPal adds 8 million new active users in Q1". ZDNet
 
 
-# Initial Data & Data Generation
+# Initial Data and Data Generation
 
-Since I was unable to have access to sufficient amount of streaming data via Venmo API per second, I generated streaming data.
-Due to the privacy concern, Venmo doesn't release user information regarding age, gender, location, therefore, user information is generated too.
+Venmo provides public REST API that transmits transaction details in JSON format upon request. Unfortunately it has recently limited the maximum transactions per request to 50 and the maximum number of requests to be no more than a few times a minute. Therefore the consumer would not be able to access real-time streaming data at a sufficient rate via the REST API and the streaming input would have to be simulated from historical data instead.
+
+Due to the privacy concern, Venmo doesn't release user information regarding age, gender, or location, so these fields are generated as a demonstration of the functionality too.
+
 Initial Venmo transaction data (JSON format) is stored in AWS S3 bucket.
 
 # Pipeline
@@ -35,6 +37,7 @@ MySQL is used for table storage.
 
 
 # Github Repo Structure
+
 ./src/ contains source code divided into batch and stream processing tasks.
 ./docs/ documentations.
 ./test/ contains automated test.
