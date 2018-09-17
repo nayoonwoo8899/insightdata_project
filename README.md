@@ -16,6 +16,7 @@ On this project, I developed pipeline to provide platform to perform real time V
 
 
 2. Pipeline
+<img width="756" alt="pipeline0" src="https://user-images.githubusercontent.com/41222469/45602626-7e2cfd00-b9ef-11e8-94d6-9a04b8a4ad4a.png">
 
 
 
