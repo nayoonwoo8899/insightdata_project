@@ -27,6 +27,8 @@ Initial Venmo transaction data (JSON format) is stored in AWS S3 bucket.
 Spark is used for batch processing of the existing data and Spark streaming will provide real time analytics.
 MySQL is used for table storage.
 
+
 4. Github Repo Structure
+
 
 
