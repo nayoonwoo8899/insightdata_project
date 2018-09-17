@@ -29,6 +29,9 @@ MySQL is used for table storage.
 
 
 4. Github Repo Structure
+./src/ contains source code divided into batch and stream processing tasks.
+./docs/ documentations.
+./test/ contains automated test.
 
 
 
