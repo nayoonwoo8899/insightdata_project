@@ -2,6 +2,12 @@
 Real Time Venmo User Ananlytics
 https://github.com/nayoonwoo8899/insightdata_project
 
+# Table of Contents
+1. [Motivation](README.md#motivation)
+2. [Initial Data & Data Generation](README.md#initial-data-and-data-generation)
+3. [Pipeline](README.md#pipeline)
+4. [Github Repo Structure](README.md#github-repo-structure)
+
 1. Motivation
 
 As a mobile payment service owned by PayPal, venmo allows users to make and share payment with other users who are connected.
