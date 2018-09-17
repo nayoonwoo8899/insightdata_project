@@ -17,14 +17,15 @@ On this project, I developed pipeline to provide platform to perform real time V
 
 2. Initial Data & Data Generation
 
-Since I was unable to have access to sufficient amount of streaming data via Venmo API, I generated streaming data.
-Due to the privacy concern, Venmo doesn't release user information regarding age, gender, location, user information is generated too.
-Initial Venmo transaction data (JSON format) is stored is AWS S3 bucket.
+Since I was unable to have access to sufficient amount of streaming data via Venmo API per second, I generated streaming data.
+Due to the privacy concern, Venmo doesn't release user information regarding age, gender, location, therefore, user information is generated too.
+Initial Venmo transaction data (JSON format) is stored in AWS S3 bucket.
 
 3. Pipeline
 
-
+<img width="742" alt="pipeline1" src="https://user-images.githubusercontent.com/41222469/45603086-76bd2200-b9f6-11e8-9384-c08469f05b04.png">
 Spark is used for batch processing of the existing data and Spark streaming will provide real time analytics.
+MySQL is used for table storage.
 
 4. Github Repo Structure
 
