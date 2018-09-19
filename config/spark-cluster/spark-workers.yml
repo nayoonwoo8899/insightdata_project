@@ -1,0 +1,11 @@
+vol_type: standard
+purchase_type: on_demand
+subnet_id: subnet-0a9951c52a0bbbe6b
+num_instances: 3
+key_name: NayoonWoo-IAM
+security_group_ids: sg-08b1ebad54ab9038f
+instance_type: m4.large
+tag_name: anuvedverma-spark-cluster
+vol_size: 100
+role: worker
+use_eips: true
