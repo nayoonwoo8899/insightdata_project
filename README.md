@@ -37,10 +37,11 @@ MySQL is used for table storage.
 
 
 # Github Repo Structure
-
-./src/ contains source code divided into batch and stream processing tasks.
-./docs/ documentations.
-./test/ contains automated test.
+./config/ configurations for setting up AWS clusters using Pegasus.
+./webapps/ relevant files for the Flask web application.
+./sample-data sample Venmo transaction data.
+./src/ source code divided into batch and stream processing tasks.
+./test/ automated test.
 
 
 
