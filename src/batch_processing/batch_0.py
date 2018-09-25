@@ -35,42 +35,39 @@ db_config={
 
 #connects to the database and creates table if it does not exist based on sql_create_table_statement.
 def sql_create_table(sql_create_table_statement):
-	try:
-		connection = mysql.connector.connect(db_config)
-		cursor = connection.cursor()
-		cursor.execute(sql_create_table_statement)
-		connection.commit()
-		cursor.close()
-		connection.close()
-		return True
+    try:
+        connection = mysql.connector.connect(db_config)
+        cursor = connection.cursor()
+        cursor.execute(sql_create_table_statement)
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return True
 
-	except:
+    except:
         return False
 
-data_schema1=
-"""
-CREATE TABLE IF NOT EXISTS Data_2010_Ver1 (
-hour INT(2) PRIMARY KEY,
-count INT
-);"""
+data_schema1= """CREATE TABLE IF NOT EXISTS Data_2010_Ver1 (
+                 hour INT(2) PRIMARY KEY,
+                 count INT
+                );
+             """
 
-data_schema2=
-"""
-CREATE TABLE IF NOT EXISTS Data_2010_Ver1_dayofweek (
-hour INT(2),
-dayofweek INT(1),
-count INT,
-PRIMARY KEY (hour, dayofweek)
-);"""
+data_schema2="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_dayofweek (
+                hour INT(2),
+                dayofweek INT(1),
+                count INT,
+                PRIMARY KEY (hour, dayofweek)
+               );
+               """
 
-data_schema3=
-"""
-CREATE TABLE IF NOT EXISTS Data_2010_Ver1_user (
-hour INT(2),
-sender_id INT,
-count INT,
-PRIMARY KEY (hour, sender_id)
-);"""
+data_schema3="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_user (
+                hour INT(2),
+                sender_id INT,
+                count INT,
+                PRIMARY KEY (hour, sender_id)
+                );
+                """
 
 stmt1= """ insert ignore into Data_2010_Ver1 (hour, count) VALUES (%s, %s);"""
 stmt2= """ insert ignore into Data_2010_Ver1_dayofweek (hour, dayofweek,count ) VALUES (%s,%s, %s);"""
@@ -80,13 +77,13 @@ stmt3= """ insert ignore into Data_2010_Ver1_user (hour, sender_id,count) VALUES
 #uses prepared statement to insert collected rdd to table
 def sql_insert_rdd_to_table(prepared_statement, collected_rdd):
     try:
-		connection = mysql.connector.connect(db_config)
+        connection = mysql.connector.connect(db_config)
         cursor = connection.cursor()
-		cursor.executemany(prepared_statement, collected_rdd)
-		connection.commit()
-		cursor.close()
-		connection.close()
-		return True
+        cursor.executemany(prepared_statement, collected_rdd)
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return True
 
     except:
         return False
