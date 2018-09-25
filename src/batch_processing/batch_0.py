@@ -29,14 +29,14 @@ def get_data(json_record):
 
 db_config={
 	'host':'ec2-54-82-188-230.compute-1.amazonaws.com',
-	'user':'username',
-	'password':'password',
-	'database':'database_name'}
+	'user':'nayoon',
+	'password':'haonayoon',
+	'database':'insight_data'}
 
 #connects to the database and creates table if it does not exist based on sql_create_table_statement.
 def sql_create_table(sql_create_table_statement):
     try:
-        connection = mysql.connector.connect(db_config)
+        connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
         cursor.execute(sql_create_table_statement)
         connection.commit()
@@ -44,7 +44,8 @@ def sql_create_table(sql_create_table_statement):
         connection.close()
         return True
 
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 data_schema1= """CREATE TABLE IF NOT EXISTS Data_2010_Ver1 (
@@ -77,7 +78,7 @@ stmt3= """ insert ignore into Data_2010_Ver1_user (hour, sender_id,count) VALUES
 #uses prepared statement to insert collected rdd to table
 def sql_insert_rdd_to_table(prepared_statement, collected_rdd):
     try:
-        connection = mysql.connector.connect(db_config)
+        connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
         cursor.executemany(prepared_statement, collected_rdd)
         connection.commit()
@@ -85,7 +86,8 @@ def sql_insert_rdd_to_table(prepared_statement, collected_rdd):
         connection.close()
         return True
 
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 
@@ -119,14 +121,17 @@ if __name__ == "__main__":
     if table_created2:
         data_inserted2 = sql_insert_rdd_to_table(prepared_statement=stmt2,collected_rdd=data_rdd_hour_dayofweek.collect())
     else:
-        logging.error("Error in table creation")
+        print('Cannot create table by hour and day of week')
+        sys.exit(0)
 
     if table_created3:
         data_inserted3 = sql_insert_rdd_to_table(prepared_statement=stmt3,collected_rdd=data_rdd_hour_user.collect())
     else:
-        logging.error("Error in table creation")
+        print('Cannot create table by hour and user')
+        sys.exit(0)
 
     if table_created1:
         data_inserted1 = sql_insert_rdd_to_table(prepared_statement=stmt1,collected_rdd=data_rdd_hour.collect())
     else:
-        logging.error("Error in table creation")
+        print('Cannot create table by hour')
+        sys.exit(0)
