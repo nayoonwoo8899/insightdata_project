@@ -104,12 +104,20 @@ def filter_nones(data):
 
 if __name__ == "__main__":
     sc = SparkContext(appName="Venmo")
-    read_rdd = sc.textFile("s3a://venmo-json/2010*")
+    read_rdd = sc.textFile("s3a://venmo-json/2012*")
     data_rdd = read_rdd.map(lambda x: get_data(x)).filter(lambda x: filter_nones(x))
     data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
     data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
 
     data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0][1],rdd[1])).reduceByKey(lambda a,b:a+b)
+
+    # test by printing RDD content
+    print('By hour and day:')
+    for x in data_rdd_hour_dayofweek.collect():
+        print(x)
+    #print('By hour:')
+    #for x in data_rdd_hour.collect():
+    #    print(x)
     # clean json data
 
     table_created1 = sql_create_table(data_schema1)
