@@ -90,13 +90,32 @@ def sql_insert_rdd_to_table(prepared_statement, collected_rdd):
         print(e)
         return False
 
-
-
 def filter_nones(data):
     if data is not None:
         return True
     return False
 
+# table by user is too large to collect to master node so we write it to database per partition
+def write_user_data(partition):
+    connection = mysql.connector.connect(**db_config)
+    cursor = connection.cursor()
+    data = []
+    results = []
+    for x in partition:
+        sender_id=x[0][1]
+        hour=x[0][0]
+        count=x[1]
+        data.append(hour,sender_id,count)
+        results.append(count)
+    try:
+        cursor.executemany(stmt3, data)
+        connection.commit()
+    except:
+        connection.rollback()
+    cursor.close()
+    connection.close()
+    return results
+    
 
 # To submit script:
 # $SPARK_HOME/bin/spark-submit --master spark://host:7077 --executor-memory 6G spark_batch.py
@@ -107,7 +126,7 @@ if __name__ == "__main__":
     read_rdd = sc.textFile("s3a://venmo-json/2015*")
     data_rdd = read_rdd.map(lambda x: get_data(x)).filter(lambda x: filter_nones(x))
     data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
-    data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
+    data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
 
     data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0][1],rdd[1])).reduceByKey(lambda a,b:a+b)
 
@@ -133,7 +152,8 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if table_created3:
-        data_inserted3 = sql_insert_rdd_to_table(prepared_statement=stmt3,collected_rdd=data_rdd_hour_user.collect())
+    #    data_inserted3 = sql_insert_rdd_to_table(prepared_statement=stmt3,collected_rdd=data_rdd_hour_user.collect())
+        written_entries = data_rdd_hour_user.mapPartitions(write_user_data)
     else:
         print('Cannot create table by hour and user')
         sys.exit(0)
