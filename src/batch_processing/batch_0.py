@@ -48,13 +48,13 @@ def sql_create_table(sql_create_table_statement):
         print(e)
         return False
 
-data_schema1= """CREATE TABLE IF NOT EXISTS Data_2010_Ver1 (
+data_schema1= """CREATE TABLE IF NOT EXISTS Data_2015_Ver1 (
                  hour INT(2) PRIMARY KEY,
                  count INT
                 );
              """
 
-data_schema2="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_dayofweek (
+data_schema2="""CREATE TABLE IF NOT EXISTS Data_2015_Ver1_dayofweek (
                 hour INT(2),
                 dayofweek INT(1),
                 count INT,
@@ -62,7 +62,7 @@ data_schema2="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_dayofweek (
                );
                """
 
-data_schema3="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_user (
+data_schema3="""CREATE TABLE IF NOT EXISTS Data_2015_Ver1_user (
                 hour INT(2),
                 sender_id INT,
                 count INT,
@@ -70,9 +70,9 @@ data_schema3="""CREATE TABLE IF NOT EXISTS Data_2010_Ver1_user (
                 );
                 """
 
-stmt1= """ insert ignore into Data_2010_Ver1 (hour, count) VALUES (%s, %s);"""
-stmt2= """ insert ignore into Data_2010_Ver1_dayofweek (hour, dayofweek,count ) VALUES (%s,%s, %s);"""
-stmt3= """ insert ignore into Data_2010_Ver1_user (hour, sender_id,count) VALUES (%s,%s,%s);"""
+stmt1= """ insert ignore into Data_2015_Ver1 (hour, count) VALUES (%s, %s);"""
+stmt2= """ insert ignore into Data_2015_Ver1_dayofweek (hour, dayofweek,count ) VALUES (%s,%s, %s);"""
+stmt3= """ insert ignore into Data_2015_Ver1_user (hour, sender_id,count) VALUES (%s,%s,%s);"""
 
 
 #uses prepared statement to insert collected rdd to table
@@ -104,17 +104,17 @@ def filter_nones(data):
 
 if __name__ == "__main__":
     sc = SparkContext(appName="Venmo")
-    read_rdd = sc.textFile("s3a://venmo-json/2012*")
+    read_rdd = sc.textFile("s3a://venmo-json/2015*")
     data_rdd = read_rdd.map(lambda x: get_data(x)).filter(lambda x: filter_nones(x))
-    data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
-    data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
+    data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
+    data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
 
     data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0][1],rdd[1])).reduceByKey(lambda a,b:a+b)
 
     # test by printing RDD content
-    print('By hour and day:')
-    for x in data_rdd_hour_dayofweek.collect():
-        print(x)
+    #print('By hour and day:')
+    #for x in data_rdd_hour_dayofweek.collect():
+    #    print(x)
     #print('By hour:')
     #for x in data_rdd_hour.collect():
     #    print(x)
