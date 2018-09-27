@@ -23,7 +23,7 @@ class Producer(threading.Thread):
             json_body = data.read().splitlines()
             for json_obj in json_body:
                 producer.send('venmo-transactions', json_obj)
-                time.sleep(0.1)
+                time.sleep(1)
                 print(json_obj + '\n' + '=================================================================' + '\n')
 
     # Access S3 bucket

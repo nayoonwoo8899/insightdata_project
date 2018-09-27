@@ -41,12 +41,12 @@ class Streaming(threading.Thread):
         month = int(timestamp[5:7])
         date=int(timestamp[8:10])
         hour=int(timestamp[11:13])
-        dayofweek=int(datetime.datetime(year, month, date).strftime('%w'))
-       
-        # read previous value from Redis        
-        prev_hour=self.redis_db.get('hour')
-        counting=self.redis_db.get('counting')
+        dayofweek=int(datetime.datetime(year, month, date).strftime('%w'))        
 
+        # read previous value from Redis        
+        prev_hour=int(self.redis_db.get('hour'))
+        counting=int(self.redis_db.get('counting'))
+        print('prev_hour: ' + str(prev_hour) + ' counting: ' + str(counting) + ' hour: ' + str(hour))
 
 
         if prev_hour==None or prev_hour!=hour:
@@ -59,7 +59,7 @@ class Streaming(threading.Thread):
             self.redis_db.set('counting',1)
         
         else:
-
+            print('finally accumulating')
             self.redis_db.set('year',year)
             self.redis_db.set('month',month)
             self.redis_db.set('date',date)
@@ -80,5 +80,5 @@ if __name__ == "__main__":
             print("Started Kafka consumer.")
         else:
             print("Listening for new messages in topic: 'venmo-transactions'...")
-#time.sleep(0.1)
+        time.sleep(10)
 
