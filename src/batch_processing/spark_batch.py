@@ -128,7 +128,7 @@ if __name__ == "__main__":
     data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
     data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
 
-    data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0][1],rdd[1])).reduceByKey(lambda a,b:a+b)
+    data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0],rdd[2])).reduceByKey(lambda a,b:a+b)
 
     # test by printing RDD content
     #print('By hour and day:')
