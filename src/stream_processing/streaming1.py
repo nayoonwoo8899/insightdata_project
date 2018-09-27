@@ -17,7 +17,7 @@ class Streaming(threading.Thread):
         super(Streaming, self).__init__()
 
         # Set up connection to Redis server
-        self.redis_server = 'localhost'
+        self.redis_server = 'ec2-54-82-188-230.compute-1.amazonaws.com'
         self.redis_db = redis.StrictRedis(host=self.redis_server, port=6379, db=0)
 
         # intiailize internal variables

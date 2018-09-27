@@ -15,7 +15,7 @@ from pyspark.sql.functions import *
 from datetime import datetime
 import redis
 
-redis_server = 'localhost'
+redis_server = 'ec2-54-82-188-230.compute-1.amazonaws.com'
 redis_db = redis.StrictRedis(host=self.redis_server, port=6379, db=0)
 
 
