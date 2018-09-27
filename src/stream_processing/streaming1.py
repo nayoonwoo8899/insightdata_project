@@ -22,7 +22,7 @@ class Streaming(threading.Thread):
 
     # Thread sets up consumer and consumes kafka messages
     def run(self):
-        consumer = KafkaConsumer(bootstrap_servers='localhost:9092')
+        consumer = KafkaConsumer(bootstrap_servers='ec2-54-82-188-230.compute-1.amazonaws.com:9092')
         consumer.subscribe(['venmo-transactions'])
 
         for message in consumer:

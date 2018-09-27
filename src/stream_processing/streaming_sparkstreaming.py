@@ -12,11 +12,11 @@ from pyspark.sql.functions import udf
 from pyspark.sql.types import StringType
 from pyspark.sql.functions import regexp_replace, col
 from pyspark.sql.functions import *
-from datetime import datetime
+import datetime
 import redis
 
 redis_server = 'ec2-54-82-188-230.compute-1.amazonaws.com'
-redis_db = redis.StrictRedis(host=self.redis_server, port=6379, db=0)
+#redis_db = redis.StrictRedis(host=redis_server, port=6379, db=0)
 
 
 
@@ -51,38 +51,45 @@ def transfer_time(text):
 """
 
 
-def process(json_obj):
-    json_data = json.loads(json_obj)
+def process(rdd):
+    if rdd.isEmpty():
+        return
 
-    timestamp = json_data['created_time']
-    year = int(timestamp[0:4])
-    month = int(timestamp[5:7])
-    date = int(timestamp[8:10])
-    hour = int(timestamp[11:13])
-    dayofweek = int(datetime.datetime(year, month, date).strftime('%w'))
+    rdd.foreachPartition(processPartition)
 
-    # read previous value from Redis
-    prev_hour = redis_db.get('hour')
-    counting = redis_db.get('counting')
+def processPartition(partition):
+    redis_db = redis.StrictRedis(host=redis_server, port=6379, db=0)
+    for x in partition:
+        json_data = json.loads(x)
+        timestamp = json_data['created_time']
+        year = int(timestamp[0:4])
+        month = int(timestamp[5:7])
+        date = int(timestamp[8:10])
+        hour = int(timestamp[11:13])
+        dayofweek = int(datetime.datetime(year, month, date).strftime('%w'))
 
-    if prev_hour == None or prev_hour != hour:
-        print('year=', year, 'month=', month, 'date=', date, 'day of week=', dayofweek, 'hour=', hour,
-              '# of transaction during past 1 hour=', counting)
-        redis_db.set('year', year)
-        redis_db.set('month', month)
-        redis_db.set('date', date)
-        redis_db.set('day of week', dayofweek)
-        redis_db.set('hour', hour)
-        redis_db.set('counting', 1)
+        # read previous value from Redis
+        prev_hour = int(redis_db.get('hour'))
+        counting = int(redis_db.get('counting'))
 
-    else:
+        if prev_hour == None or prev_hour != hour:
+            print('year=', year, 'month=', month, 'date=', date, 'day of week=', dayofweek, 'hour=', hour,
+                  '# of transaction during past 1 hour=', counting)
+            redis_db.set('year', year)
+            redis_db.set('month', month)
+            redis_db.set('date', date)
+            redis_db.set('day of week', dayofweek)
+            redis_db.set('hour', hour)
+            redis_db.set('counting', 1)
 
-        redis_db.set('year', year)
-        redis_db.set('month', month)
-        redis_db.set('date', date)
-        redis_db.set('day of week', dayofweek)
-        redis_db.set('hour', hour)
-        redis_db.set('counting', counting + 1)
+        else:
+
+            redis_db.set('year', year)
+            redis_db.set('month', month)
+            redis_db.set('date', date)
+            redis_db.set('day of week', dayofweek)
+            redis_db.set('hour', hour)
+            redis_db.set('counting', counting + 1)
 
 """
 def process(rdd):
@@ -103,10 +110,10 @@ if __name__ == "__main__":
     #sc.setLogLevel("WARN")
     ssc = StreamingContext(sc,1)
     topic_name = "venmo-transactions"
-    brokers_dns_str = "0.0.0.0:9092"
+    brokers_dns_str = "ec2-54-82-188-230.compute-1.amazonaws.com:9092"
 
     streamFromKafka = KafkaUtils.createDirectStream(ssc, [topic_name],{"metadata.broker.list":brokers_dns_str})
-    lines = streamFromKafka.map(lambda x: x[1])
+    lines = streamFromKafka.map(lambda x: x[1]).map(lambda x : str(x))
 
     lines.count().pprint()
     lines.foreachRDD(process)
