@@ -4,8 +4,6 @@ import json
 import redis
 from kafka import KafkaConsumer
 import datetime
-import pyspark_cassandra
-from pyspark_cassandra import CassandraSparkContext, saveToCassandra
 
 
 
@@ -35,6 +33,7 @@ class Streaming(threading.Thread):
     def analyze_message(self, json_obj):
         
         json_data = json.loads(json_obj)
+        print(json_obj)
         #from_id = json_data['actor']['id']
         #to_id = json_data['transactions'][0]['target']['id']
         timestamp = json_data['created_time']
@@ -81,5 +80,5 @@ if __name__ == "__main__":
             print("Started Kafka consumer.")
         else:
             print("Listening for new messages in topic: 'venmo-transactions'...")
-time.sleep(0.1)
+#time.sleep(0.1)
 
