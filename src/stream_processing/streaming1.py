@@ -41,6 +41,8 @@ class Streaming(threading.Thread):
         month = int(timestamp[5:7])
         date=int(timestamp[8:10])
         hour=int(timestamp[11:13])
+        minn=int(timestamp[14:16])
+        secc=int(timestamp[17:19])
         dayofweek=int(datetime.datetime(year, month, date).strftime('%w'))        
 
         # read previous value from Redis        
@@ -56,6 +58,8 @@ class Streaming(threading.Thread):
             self.redis_db.set('date',date)
             self.redis_db.set('day of week',dayofweek)
             self.redis_db.set('hour',hour)
+            self.redis_db.set('min',minn)
+            self.redis_db.set('sec',secc)
             self.redis_db.set('counting',1)
         
         else:
@@ -65,6 +69,8 @@ class Streaming(threading.Thread):
             self.redis_db.set('date',date)
             self.redis_db.set('day of week',dayofweek)
             self.redis_db.set('hour',hour)
+            self.redis_db.set('min',minn)
+            self.redis_db.set('sec',secc)
             self.redis_db.set('counting',counting+1)
             
        
