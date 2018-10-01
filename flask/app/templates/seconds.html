@@ -1,0 +1,27 @@
+<html>
+<head>
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="{{ url_for('static', filename='js/bokeh-0.13.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bokeh-widgets-0.13.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bokeh-api-0.13.0.min.js') }}"></script>
+
+<title>Streaming Count</title>
+</head>
+<!--
+    <body onload  = "JavaScript:AutoRefresh(5000);">
+        <h1 align = "center"> Total Visits by Second </h1>
+
+        <div id   = "chart"></div>
+    </body>
+    -->
+<body>
+{{ script|safe }}
+{{ div|safe}}
+</body>
+</html>

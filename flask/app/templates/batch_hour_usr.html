@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title> count by hour and user </title>
+</head>
+<body>
+
+<table border="1">
+    <tr>
+    <th> Hour </th><th> Sender ID </th><th> Count </th>
+    </tr>
+    {% for x in details %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+</body>
+</html>

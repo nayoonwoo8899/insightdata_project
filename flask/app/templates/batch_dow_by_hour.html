@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> count by day of week -- selected hour</title>
+</head>
+<body>
+
+<form action="/batch_result/dayofweek_by_hour">
+    <select name="hour">
+        {% for hour in hours %}
+            {% if hour == current_hour %}
+                <option selected value="{{ hour }}">{{ hour }}</option>
+            {% else %}
+                <option value="{{ hour }}">{{ hour }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
+
+<table border="1">
+    <tr>
+    <th> Day of Week </th><th> Count </th>
+    </tr>
+    {% for x in details %}
+    <tr>
+        <td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{{ script|safe }}
+{{ div|safe }}
+
+</body>
+</html>

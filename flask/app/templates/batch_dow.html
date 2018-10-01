@@ -1,0 +1,56 @@
+<html>
+<head>
+
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> count by day of week </title>
+</head>
+<body>
+
+<table border="1">
+    <tr>
+    <th> Day of Week </th><th> Count </th>
+    </tr>
+    {% for x in details %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{{ script|safe }}
+{{ div|safe }}
+<!--
+<table border="1">
+    <tr>
+    <th> Hour </th><th> Day of Week </th><th> Count </th>
+    </tr>
+    {% for x in details2 %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table border="1">
+    <tr>
+    <th> Hour </th><th> Day of Week </th><th> Count </th>
+    </tr>
+    {% for x in details3 %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+-->
+
+</body>
+</html>
