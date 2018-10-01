@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 from tornado.wsgi import WSGIContainer
 from tornado.ioloop import IOLoop
