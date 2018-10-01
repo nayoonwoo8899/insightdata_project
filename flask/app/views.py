@@ -23,7 +23,7 @@ mysql=MySQL(app)
 def choose_data():
     return render_template('intro.html')
 
-@app.route('/batch_result/hour/',methods=['GET','POST'])
+@app.route('/batch_result/hour/',methods=['GET'])
 def batch_hour():
     cur = mysql.connection.cursor()
     resultvalue=cur.execute("select * from Data_2015_Ver1")
@@ -120,7 +120,7 @@ def batch_user_by_hour():
     else:
         cur.close()
 
-@app.route('/stream_result/data/', methods=['GET','POST','OPTIONS'])
+@app.route('/stream_result/data/', methods=['POST'])
 def data():
     r = redis.StrictRedis(host='ec2-54-82-188-230.compute-1.amazonaws.com', port=6379, db=0)
     year = int(r.get('year'))
@@ -135,7 +135,7 @@ def data():
     return jsonify(x = [seconds], y = [count])
 
 
-@app.route('/stream_result/',methods=['GET','POST'])
+@app.route('/stream_result/',methods=['GET'])
 def streaming():
     source = AjaxDataSource(data_url = request.url_root + 'stream_result/data/', polling_interval = 1000, mode = 'append')
     plot = figure(plot_height=300,sizing_mode='scale_width')
