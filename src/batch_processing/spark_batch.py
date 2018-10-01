@@ -125,6 +125,7 @@ if __name__ == "__main__":
     sc = SparkContext(appName="Venmo")
     read_rdd = sc.textFile("s3a://venmo-json/2015*")
     data_rdd = read_rdd.map(lambda x: get_data(x)).filter(lambda x: filter_nones(x))
+
     data_rdd_hour_dayofweek = data_rdd.map(lambda rdd: ((rdd[0][4],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][1], rdd[0][0], rdd[1]))
     data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
 

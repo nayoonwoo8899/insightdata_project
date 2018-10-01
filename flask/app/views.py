@@ -68,8 +68,7 @@ def batch_dayofweek_by_hour():
     if resultvalue:
         details = cur.fetchall()
         cur.close()
-        df = pd.read_sql("SELECT * FROM Data_2015_Ver1_dayofweek WHERE hour = " + hour,
-                         con=mysql.connection)
+        df = pd.read_sql("SELECT * FROM Data_2015_Ver1_dayofweek WHERE hour = " + hour,con=mysql.connection)
         source = ColumnDataSource(df)
         plot = figure()
         plot.vbar(x='dayofweek', source=source, width=0.5, top='count')
@@ -79,7 +78,25 @@ def batch_dayofweek_by_hour():
         cur.close()
 
 
-
+@app.route('/batch_result/dayofweek_by_dow/', methods = ['GET', 'POST'])
+def batch_dayofweek_by_dow():
+    dows = list(range(7))
+    dow = request.args.get('dow')
+    if dow == None:
+        dow = '0'
+    cur = mysql.connection.cursor()
+    resultvalue = cur.execute("select * from Data_2015_Ver1_dayofweek where dayofweek= " + dow)
+    if resultvalue:
+        details = cur.fetchall()
+        cur.close()
+        df = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow ,con=mysql.connection)
+        source = ColumnDataSource(df)
+        plot = figure()
+        plot.vbar(x='hour', source=source, width=0.5, top='count')
+        script, div = components(plot)
+        return render_template('batch_dow_by_dow.html', details=details, current_dow = int(dow), dows = dows, script=script, div=div)
+    else:
+        cur.close()
 
 @app.route('/batch_result/user/',methods=['GET'] )
 def batch_user():
@@ -92,10 +109,6 @@ def batch_user():
         return render_template('batch_hour_usr.html', details=details)
     else:
         cur.close()
-
-
-
-
 
 @app.route('/batch_result/user_by_hour/', methods = ['GET', 'POST'])
 def batch_user_by_hour():
