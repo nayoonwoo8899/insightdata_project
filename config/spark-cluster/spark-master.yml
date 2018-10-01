@@ -5,7 +5,7 @@ num_instances: 1
 key_name: NayoonWoo-IAM	
 security_group_ids: sg-08b1ebad54ab9038f
 instance_type: m4.large
-tag_name: anuvedverma-spark-cluster
+tag_name: spark-cluster
 vol_size: 100
 role: master
 use_eips: true
