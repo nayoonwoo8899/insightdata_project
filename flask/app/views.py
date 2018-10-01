@@ -1,29 +1,14 @@
 from app import app
-import MySQLdb
 from flask_mysqldb import MySQL
-from flask import jsonify, send_from_directory, make_response, current_app
-from flask import render_template, request
-import copy
+from flask import render_template, request, jsonify
 import time
 import datetime
-from collections import Counter
 import redis
 import pandas as pd
 from bokeh.plotting import figure
-from bokeh.plotting import show
 from bokeh.models import ColumnDataSource
 from bokeh.models import AjaxDataSource
 from bokeh.embed import components
-from six import string_types
-from datetime import timedelta
-from functools import update_wrapper, wraps
-
-from datetime     import datetime as dt
-from datetime     import timedelta as td
-
-import redis
-import psycopg2
-import matplotlib.pyplot as plt
 
 
 #Configuration of MySQL db
