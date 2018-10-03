@@ -1,0 +1,47 @@
+<html>
+<head>
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> count by hour -- selected day of week 1, 2</title>
+</head>
+<body>
+<h1>Average # of transaction for each day of week (0:Monday - 6:Sunday)</h1>
+<form action="/batch_result/dayofweek_by_dow2/">
+    <select name="dow">
+        {% for dow in dows %}
+            {% if dow == current_dow %}
+                <option selected value="{{ dow }}">{{ dow }}</option>
+            {% else %}
+                <option value="{{ dow }}">{{ dow }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit">
+
+    <select name="dow2">
+        {% for dow2 in dows2 %}
+            {% if dow2 == current_dow2 %}
+                <option selected value="{{ dow2 }}">{{ dow2 }}</option>
+            {% else %}
+                <option value="{{ dow2 }}">{{ dow2 }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
+
+
+
+
+{{ script|safe }}
+{{ div|safe }}
+
+</body>

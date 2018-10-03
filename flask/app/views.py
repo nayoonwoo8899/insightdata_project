@@ -89,7 +89,7 @@ def batch_dayofweek_by_dow():
     if resultvalue:
         details = cur.fetchall()
         cur.close()
-        df = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow ,con=mysql.connection)
+        df = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow,con=mysql.connection)
         source = ColumnDataSource(df)
         plot = figure()
         plot.vbar(x='hour', source=source, width=0.5, top='count')
@@ -97,6 +97,41 @@ def batch_dayofweek_by_dow():
         return render_template('batch_dow_by_dow.html', details=details, current_dow = int(dow), dows = dows, script=script, div=div)
     else:
         cur.close()
+
+@app.route('/batch_result/dayofweek_by_dow2/', methods = ['GET','POST'])
+def batch_dayofweek_by_dow2():
+    dows = list(range(7))
+    dows2 = list(range(7))
+    dow = request.args.get('dow')
+    dow2=request.args.get('dow2')
+    if dow == None:
+        dow = '0'
+    if dow2==None:
+        dow2='0'
+
+    df = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow, con=mysql.connection)
+    df2 = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow2, con=mysql.connection)
+
+    df.iloc[:,-1] = df.iloc[:,-1].div(52)
+    df2.iloc[:,-1] = df2.iloc[:,-1].div(52)
+
+    if dow=='3':
+        df.iloc[:, -1] = df.iloc[:, -1].multiply(52).div(53)
+    if dow2=='3':
+        df2.iloc[:, -1] = df2.iloc[:, -1].multiply(52).div(53)
+
+    source = ColumnDataSource(df)
+    source2 = ColumnDataSource(df2)
+
+    plot = figure()
+
+    plot.vbar(x='hour', source=source, width=1, top='count',fill_color="deeppink",fill_alpha=0.5,line_color="deeppink")
+    plot.vbar(x='hour', source=source2, width=1, top='count',fill_color="gold",fill_alpha=0.5,line_color="gold")
+
+    script, div = components(plot)
+    return render_template('batch_dow_by_dow2.html', current_dow = int(dow), current_dow2 = int(dow2), dows=dows,dows2=dows2,script=script, div=div)
+
+
 
 @app.route('/batch_result/user/',methods=['GET'] )
 def batch_user():
