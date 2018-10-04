@@ -89,9 +89,26 @@ def batch_dayofweek_by_hour():
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT * FROM Data_2015_Ver1_dayofweek WHERE hour = " + hour,con=mysql.connection)
+        labels = []
+        for dow in df['dayofweek']:
+            if dow == 0:
+                labels.append('Monday')
+            elif dow == 1:
+                labels.append('Tuesday')
+            elif dow == 2:
+                labels.append('Wednesday')
+            elif dow == 3:
+                labels.append('Thursday')
+            elif dow == 4:
+                labels.append('Friday')
+            elif dow == 5:
+                labels.append('Saturday')
+            else:
+                labels.append('Sunday')
+        df['label'] = labels
         source = ColumnDataSource(df)
-        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count',y_range=(0, 5*10**5),x_range=(-0.5, 6.5))
-        plot.vbar(x='dayofweek', source=source, width=1, top='count',fill_alpha=0.5)
+        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count',y_range=(0, 5*10**5),x_range = labels)
+        plot.vbar(x='label', source=source, width=1, top='count',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow_by_hour.html', details=details, current_hour = int(hour), hours = hours, script=script, div=div)
     else:
