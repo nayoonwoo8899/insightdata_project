@@ -16,12 +16,12 @@
 <body>
 <h1>Top 20 users' transaction count at each time of the day</h1>
 <form action="/batch_result/user_by_hour">
-    <select name="user">
+    <select name="hour">
         {% for hour in hours %}
             {% if hour == current_hour %}
-                <option selected value="{{ user }}">{{ hour }}</option>
+                <option selected value="{{ hour }}">{{ hour }}</option>
             {% else %}
-                <option value="{{ user }}">{{ hour }}</option>
+                <option value="{{ hour }}">{{ hour }}</option>
             {% endif %}
         {% endfor %}
     </select>

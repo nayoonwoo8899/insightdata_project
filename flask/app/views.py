@@ -32,9 +32,9 @@ def batch_hour():
         cur.close()
         df = pd.read_sql('SELECT * FROM Data_2015_Ver1', con=mysql.connection)
         source = ColumnDataSource(df)
-        plot = figure(plot_width=600, plot_height=600, x_axis_label='hour', y_axis_label='count', y_range=(0, 3.2*10**6),x_range=(-1, 24))
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count', y_range=(0, 3.2*10**6),x_range=(-1, 24))
 
-        plot.vbar(x = 'hour', source = source, width = 1, top = 'count',fill_alpha=0.5)
+        plot.vbar(x = 'hour', source = source, width = 1, top = 'count',fill_color="orangered",fill_alpha=0.5,line_color="orangered")
         script, div = components(plot)
         return render_template('batch_hour.html', details=details, script = script, div = div)
     else:
@@ -52,7 +52,7 @@ def batch_dayofweek():
         #df.iloc[:, -1] = df.iloc[:, -1].div(52)
         #df.iloc[-4, -1] = df.iloc[-4, -1].multiply(52).divide(53)
         source = ColumnDataSource(df)
-        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='day of week', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
         plot.vbar(x = 'dayofweek', source = source, width =1, top = 'sum(count)',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow.html', details = details, script = script, div = div)
@@ -157,20 +157,20 @@ def batch_user_by_hour():
         hour = '0'
     cur = mysql.connection.cursor()
     resultvalue = cur.execute("select * from Data_2015_Ver1_user where hour = " + hour+" order by count desc limit 20")
-
-
     if resultvalue:
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT * FROM Data_2015_Ver1_user WHERE hour = " + hour+" order by count desc limit 20",con=mysql.connection)
-        df['index']=df.index
+        #df['index']=df.index
         source = ColumnDataSource(df)
         plot = figure(y_axis_type='log',plot_width=500, plot_height=400, y_axis_label='Count',y_range=(1, 3000),x_range=(-0.5, 19.5))
-        plot.vbar(x='index', source=source, width=1, top='count', bottom=1,fill_alpha=0.5)
+        plot.vbar(x='index', source=source, width=1, top='count', bottom=1,fill_alpha=0.5,fill_color="deeppink")
         script, div = components(plot)
         return render_template('batch_user_by_hour.html', details=details, current_hour = int(hour), hours = hours, script=script, div=div)
     else:
         cur.close()
+
+
 
 @app.route('/stream_result/data/', methods=['POST'])
 def data():
@@ -190,6 +190,7 @@ def data():
 @app.route('/stream_result/',methods=['GET'])
 def streaming():
     source = AjaxDataSource(data_url = request.url_root + 'stream_result/data/', polling_interval = 1000, mode = 'append')
+    #plot = figure(plot_width=300, plot_height=300)
     plot = figure(plot_height=300,sizing_mode='scale_width')
     plot.line('x', 'y', source = source, line_width = 4)
     script, div = components(plot)
