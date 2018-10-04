@@ -49,11 +49,28 @@ def batch_dayofweek():
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT dayofweek,sum(count) FROM Data_2015_Ver1_dayofweek GROUP BY dayofweek", con=mysql.connection)
+        labels = []
+        for dow in df['dayofweek']:
+            if dow == 0:
+                labels.append('Monday')
+            elif dow == 1:
+                labels.append('Tuesday')
+            elif dow == 2:
+                labels.append('Wednesday')
+            elif dow == 3:
+                labels.append('Thursday')
+            elif dow == 4:
+                labels.append('Friday')
+            elif dow == 5:
+                labels.append('Saturday')
+            else:
+                labels.append('Sunday')
+        df['label'] = labels
         #df.iloc[:, -1] = df.iloc[:, -1].div(52)
         #df.iloc[-4, -1] = df.iloc[-4, -1].multiply(52).divide(53)
         source = ColumnDataSource(df)
-        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
-        plot.vbar(x = 'dayofweek', source = source, width =1, top = 'sum(count)',fill_alpha=0.5)
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='dayofweek', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=labels)
+        plot.vbar(x = 'label', source = source, width =1, top = 'sum(count)', fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow.html', details = details, script = script, div = div)
     else:
