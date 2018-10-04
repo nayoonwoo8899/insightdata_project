@@ -14,7 +14,7 @@
 <title> count by day user -- selected hour</title>
 </head>
 <body>
-
+<h1>Top 20 users' transaction count at each time of the day</h1>
 <form action="/batch_result/user_by_hour">
     <select name="user">
         {% for hour in hours %}
@@ -28,7 +28,7 @@
     <input type="submit">
 </form>
 
-<table border="1">
+<table border="1", align="right">
     <tr>
     <th> User ID </th><th> Count </th>
     </tr>

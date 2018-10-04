@@ -32,8 +32,9 @@ def batch_hour():
         cur.close()
         df = pd.read_sql('SELECT * FROM Data_2015_Ver1', con=mysql.connection)
         source = ColumnDataSource(df)
-        plot = figure()
-        plot.vbar(x = 'hour', source = source, width = 0.5, top = 'count')
+        plot = figure(plot_width=600, plot_height=600, x_axis_label='hour', y_axis_label='count', y_range=(0, 3.2*10**6),x_range=(-1, 24))
+
+        plot.vbar(x = 'hour', source = source, width = 1, top = 'count',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_hour.html', details=details, script = script, div = div)
     else:
@@ -48,9 +49,11 @@ def batch_dayofweek():
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT dayofweek,sum(count) FROM Data_2015_Ver1_dayofweek GROUP BY dayofweek", con=mysql.connection)
+        #df.iloc[:, -1] = df.iloc[:, -1].div(52)
+        #df.iloc[-4, -1] = df.iloc[-4, -1].multiply(52).divide(53)
         source = ColumnDataSource(df)
-        plot = figure()
-        plot.vbar(x = 'dayofweek', source = source, width = 0.5, top = 'sum(count)')
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
+        plot.vbar(x = 'dayofweek', source = source, width =1, top = 'sum(count)',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow.html', details = details, script = script, div = div)
     else:
@@ -70,8 +73,8 @@ def batch_dayofweek_by_hour():
         cur.close()
         df = pd.read_sql("SELECT * FROM Data_2015_Ver1_dayofweek WHERE hour = " + hour,con=mysql.connection)
         source = ColumnDataSource(df)
-        plot = figure()
-        plot.vbar(x='dayofweek', source=source, width=0.5, top='count')
+        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count',y_range=(0, 5*10**5),x_range=(-0.5, 6.5))
+        plot.vbar(x='dayofweek', source=source, width=1, top='count',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow_by_hour.html', details=details, current_hour = int(hour), hours = hours, script=script, div=div)
     else:
@@ -91,9 +94,10 @@ def batch_dayofweek_by_dow():
         cur.close()
         df = pd.read_sql("select * from Data_2015_Ver1_dayofweek where dayofweek = " + dow,con=mysql.connection)
         source = ColumnDataSource(df)
-        plot = figure()
-        plot.vbar(x='hour', source=source, width=0.5, top='count')
+        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count')
+        plot.vbar(x='hour', source=source, width=1, top='count',fill_alpha=0.5)
         script, div = components(plot)
+
         return render_template('batch_dow_by_dow.html', details=details, current_dow = int(dow), dows = dows, script=script, div=div)
     else:
         cur.close()
@@ -123,7 +127,7 @@ def batch_dayofweek_by_dow2():
     source = ColumnDataSource(df)
     source2 = ColumnDataSource(df2)
 
-    plot = figure()
+    plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='Average Count',y_range=(0, 10000),x_range=(-0.5, 23.5))
 
     plot.vbar(x='hour', source=source, width=1, top='count',fill_color="deeppink",fill_alpha=0.5,line_color="deeppink")
     plot.vbar(x='hour', source=source2, width=1, top='count',fill_color="gold",fill_alpha=0.5,line_color="gold")
@@ -161,8 +165,8 @@ def batch_user_by_hour():
         df = pd.read_sql("SELECT * FROM Data_2015_Ver1_user WHERE hour = " + hour+" order by count desc limit 20",con=mysql.connection)
         df['index']=df.index
         source = ColumnDataSource(df)
-        plot = figure(y_axis_type='log')
-        plot.vbar(x='index', source=source, width=0.5, top='count', bottom=10)
+        plot = figure(y_axis_type='log',plot_width=500, plot_height=400, y_axis_label='Count',y_range=(1, 3000),x_range=(-0.5, 19.5))
+        plot.vbar(x='index', source=source, width=1, top='count', bottom=1,fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_user_by_hour.html', details=details, current_hour = int(hour), hours = hours, script=script, div=div)
     else:
