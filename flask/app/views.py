@@ -182,7 +182,7 @@ def data():
     minn = int(r.get('min'))
     secc = int(r.get('sec'))
     count = int(r.get('counting'))
-    seconds = int(time.mktime(datetime.datetime(year, month, date, hour, minn, secc).timetuple()))
+    seconds = int(time.mktime(datetime.datetime(year, month, date, hour, minn, secc).timetuple()) - time.mktime(datetime.datetime(2011, 1, 1, 0, 0, 0).timetuple()))
     print('year: ' + str(year) + ' month: ' + str(month) + ' date: ' + str(date) + ' hour: ' + str(hour) + ' min: ' + str(minn) + ' sec: ' + str(secc) + ' count: ' + str(count) + ' seconds: ' + str(seconds))
     return jsonify(x = [seconds], y = [count])
 
