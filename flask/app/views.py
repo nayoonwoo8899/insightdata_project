@@ -49,11 +49,33 @@ def batch_dayofweek():
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT dayofweek,sum(count) FROM Data_2015_Ver1_dayofweek GROUP BY dayofweek", con=mysql.connection)
+        labels = []
+        for dow in df['dayofweek']:
+            if dow == 0:
+                labels.append('Monday')
+            elif dow == 1:
+                labels.append('Tuesday')
+            elif dow == 2:
+                labels.append('Wednesday')
+            elif dow == 3:
+                labels.append('Thursday')
+            elif dow == 4:
+                labels.append('Friday')
+            elif dow == 5:
+                labels.append('Saturday')
+            else:
+                labels.append('Sunday')
+        df['label'] = labels
         #df.iloc[:, -1] = df.iloc[:, -1].div(52)
         #df.iloc[-4, -1] = df.iloc[-4, -1].multiply(52).divide(53)
         source = ColumnDataSource(df)
+<<<<<<< HEAD
         plot = figure(plot_width=500, plot_height=400, x_axis_label='day of week', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
         plot.vbar(x = 'dayofweek', source = source, width =1, top = 'sum(count)',fill_alpha=0.5)
+=======
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='dayofweek', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=labels)
+        plot.vbar(x = 'label', source = source, width =1, top = 'sum(count)', fill_alpha=0.5)
+>>>>>>> 88b43afbe911e585ed1efaa94e436f9a0bc19232
         script, div = components(plot)
         return render_template('batch_dow.html', details = details, script = script, div = div)
     else:
@@ -72,9 +94,26 @@ def batch_dayofweek_by_hour():
         details = cur.fetchall()
         cur.close()
         df = pd.read_sql("SELECT * FROM Data_2015_Ver1_dayofweek WHERE hour = " + hour,con=mysql.connection)
+        labels = []
+        for dow in df['dayofweek']:
+            if dow == 0:
+                labels.append('Monday')
+            elif dow == 1:
+                labels.append('Tuesday')
+            elif dow == 2:
+                labels.append('Wednesday')
+            elif dow == 3:
+                labels.append('Thursday')
+            elif dow == 4:
+                labels.append('Friday')
+            elif dow == 5:
+                labels.append('Saturday')
+            else:
+                labels.append('Sunday')
+        df['label'] = labels
         source = ColumnDataSource(df)
-        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count',y_range=(0, 5*10**5),x_range=(-0.5, 6.5))
-        plot.vbar(x='dayofweek', source=source, width=1, top='count',fill_alpha=0.5)
+        plot = figure(plot_width=500, plot_height=400,x_axis_label='hour', y_axis_label='count',y_range=(0, 5*10**5),x_range = labels)
+        plot.vbar(x='label', source=source, width=1, top='count',fill_alpha=0.5)
         script, div = components(plot)
         return render_template('batch_dow_by_hour.html', details=details, current_hour = int(hour), hours = hours, script=script, div=div)
     else:
@@ -182,7 +221,7 @@ def data():
     minn = int(r.get('min'))
     secc = int(r.get('sec'))
     count = int(r.get('counting'))
-    seconds = int(time.mktime(datetime.datetime(year, month, date, hour, minn, secc).timetuple()))
+    seconds = int(time.mktime(datetime.datetime(year, month, date, hour, minn, secc).timetuple()) - time.mktime(datetime.datetime(2011, 1, 1, 0, 0, 0).timetuple()))
     print('year: ' + str(year) + ' month: ' + str(month) + ' date: ' + str(date) + ' hour: ' + str(hour) + ' min: ' + str(minn) + ' sec: ' + str(secc) + ' count: ' + str(count) + ' seconds: ' + str(seconds))
     return jsonify(x = [seconds], y = [count])
 
