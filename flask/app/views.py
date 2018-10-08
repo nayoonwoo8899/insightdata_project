@@ -69,13 +69,8 @@ def batch_dayofweek():
         #df.iloc[:, -1] = df.iloc[:, -1].div(52)
         #df.iloc[-4, -1] = df.iloc[-4, -1].multiply(52).divide(53)
         source = ColumnDataSource(df)
-<<<<<<< HEAD
-        plot = figure(plot_width=500, plot_height=400, x_axis_label='day of week', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=(-0.5, 6.5))
-        plot.vbar(x = 'dayofweek', source = source, width =1, top = 'sum(count)',fill_alpha=0.5)
-=======
         plot = figure(plot_width=500, plot_height=400, x_axis_label='dayofweek', y_axis_label='count', y_range=(0.55*10**7, 0.75*10**7),x_range=labels)
         plot.vbar(x = 'label', source = source, width =1, top = 'sum(count)', fill_alpha=0.5)
->>>>>>> 88b43afbe911e585ed1efaa94e436f9a0bc19232
         script, div = components(plot)
         return render_template('batch_dow.html', details = details, script = script, div = div)
     else:
