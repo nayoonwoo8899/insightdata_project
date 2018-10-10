@@ -13,9 +13,9 @@ tr = WSGIContainer(app)
 
 application = Application([
 (r"/tornado", MainHandler),
-(r".*", FallbackHandler, dict(fallback=tr)),
+(r"/ventra.*", FallbackHandler, dict(fallback=tr)),
 ])
 
 if __name__ == "__main__":
  application.listen(80)
-IOLoop.instance().start()
+ IOLoop.instance().start()
