@@ -19,11 +19,11 @@ app.config['MYSQL_DB']='insight_data'
 
 mysql=MySQL(app)
 
-@app.route('/')
+@app.route('/ventra/')
 def choose_data():
     return render_template('intro.html')
 
-@app.route('/batch_result/hour/',methods=['GET'])
+@app.route('/ventra/batch_result/hour/',methods=['GET'])
 def batch_hour():
     cur = mysql.connection.cursor()
     resultvalue=cur.execute("select * from Data_2015_Ver1")
@@ -40,7 +40,7 @@ def batch_hour():
     else:
         cur.close()
 
-@app.route('/batch_result/dayofweek/',methods=['GET'])
+@app.route('/ventra/batch_result/dayofweek/',methods=['GET'])
 def batch_dayofweek():
 
     cur = mysql.connection.cursor()
@@ -77,7 +77,7 @@ def batch_dayofweek():
         cur.close()
 
 
-@app.route('/batch_result/dayofweek_by_hour/', methods = ['GET', 'POST'])
+@app.route('/ventra/batch_result/dayofweek_by_hour/', methods = ['GET', 'POST'])
 def batch_dayofweek_by_hour():
     hours = list(range(24))
     hour = request.args.get('hour')
@@ -115,7 +115,7 @@ def batch_dayofweek_by_hour():
         cur.close()
 
 
-@app.route('/batch_result/dayofweek_by_dow/', methods = ['GET', 'POST'])
+@app.route('/ventra/batch_result/dayofweek_by_dow/', methods = ['GET', 'POST'])
 def batch_dayofweek_by_dow():
     dows = list(range(7))
     dow = request.args.get('dow')
@@ -136,7 +136,7 @@ def batch_dayofweek_by_dow():
     else:
         cur.close()
 
-@app.route('/batch_result/dayofweek_by_dow2/', methods = ['GET','POST'])
+@app.route('/ventra/batch_result/dayofweek_by_dow2/', methods = ['GET','POST'])
 def batch_dayofweek_by_dow2():
     dows = list(range(7))
     dows2 = list(range(7))
@@ -171,7 +171,7 @@ def batch_dayofweek_by_dow2():
 
 
 
-@app.route('/batch_result/user/',methods=['GET'] )
+@app.route('/ventra/batch_result/user/',methods=['GET'] )
 def batch_user():
     cur = mysql.connection.cursor()
     resultvalue = cur.execute("select * from Data_2015_Ver1_user order by count desc limit 30")
@@ -183,7 +183,7 @@ def batch_user():
     else:
         cur.close()
 
-@app.route('/batch_result/user_by_hour/', methods = ['GET', 'POST'])
+@app.route('/ventra/batch_result/user_by_hour/', methods = ['GET', 'POST'])
 def batch_user_by_hour():
     hours = list(range(24))
     hour = request.args.get('hour')
@@ -206,7 +206,7 @@ def batch_user_by_hour():
 
 
 
-@app.route('/stream_result/data/', methods=['POST'])
+@app.route('/ventra/stream_result/data/', methods=['POST'])
 def data():
     r = redis.StrictRedis(host='ec2-54-82-188-230.compute-1.amazonaws.com', port=6379, db=0)
     year = int(r.get('year'))
@@ -221,7 +221,7 @@ def data():
     return jsonify(x = [seconds], y = [count])
 
 
-@app.route('/stream_result/',methods=['GET'])
+@app.route('/ventra/stream_result/',methods=['GET'])
 def streaming():
     source = AjaxDataSource(data_url = request.url_root + 'stream_result/data/', polling_interval = 1000, mode = 'append')
     #plot = figure(plot_width=300, plot_height=300)
