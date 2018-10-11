@@ -10,8 +10,20 @@ def get_data(json_record):
         json_body = json.loads(json_record)
         sender_id = int(json_body['actor']['id'])
         receiver_id=int(json_body['transactions'][0]['target']['id'])
-        sender_isbusiness = json_body['actor']['is_business']
-        receiver_isbusiness=json_body['transactions'][0]['target']['is_business']
+        sender_isbusiness = 0
+        if json_body['actor']['is_business'] != None:
+            if json_body['actor']['is_business'] == True:
+                sender_isbusiness = 2
+            else:
+                sender_isbusiness = 1
+        #sender_isbusiness = int(json_body['actor']['is_business'])
+        receiver_isbusiness = 0
+        if json_body['transactions'][0]['target']['is_business'] != None:
+            if json_body['transactions'][0]['target']['is_business'] == True:
+                receiver_isbusiness = 2
+            else:
+                receiver_isbusiness = 1
+        #receiver_isbusiness=int(json_body['transactions'][0]['target']['is_business'])
         timestamp = json_body['created_time']
         year = int(timestamp[0:4])
         month = int(timestamp[5:7])
@@ -33,30 +45,29 @@ data_schema1 = """CREATE TABLE IF NOT EXISTS Data_year_dayofweek_hour (
                  year INT(4),
                  dayofweek INT(1),
                  hour INT(2),
-                 count INT
+                 count INT,
                  PRIMARY KEY (year,dayofweek,hour)
                 );
              """
 data_schema3 = """CREATE TABLE IF NOT EXISTS Data_dayofweek_hour (
                  dayofweek INT(1),
                  hour INT(2),
-                 count INT
+                 count INT,
                  PRIMARY KEY (dayofweek,hour)
                 );
              """
 
 data_schema4 = """CREATE TABLE IF NOT EXISTS Data_hour (
-                 hour INT(2),
+                 hour INT(2) PRIMARY KEY,
                  count INT
-                 PRIMARY KEY (hour)
                 );
              """
 
 data_schema2 = """CREATE TABLE IF NOT EXISTS Data_pairs_isbusiness (
                 sender_id INT,
                 receiver_id INT,
-                sender_isbusiness BIT,
-                receiver_isbusiness BIT,
+                sender_isbusiness INT,
+                receiver_isbusiness INT,
                 count INT,
                 PRIMARY KEY (sender_id,receiver_id,sender_isbusiness,receiver_isbusiness)
                 );
@@ -108,13 +119,14 @@ def write_pair_data(partition):
         sender_id = x[0][0]
         receiver_id= x[0][1]
         sender_isbusiness=x[0][2]
-        receiver_isbusiness=[0][3]
+        receiver_isbusiness=x[0][3]
         count = x[1]
-        data.append(sender_id, receiver_id,sender_isbusiness,receiver_isbusiness,count)
+        print('sender_id: ' + sender_id + ' receiver_id: ' + receiver_id + ' sender_isbusiness: ' + sender_isbusiness + ' receiver_isbusiness: ' + receiver_isbusiness + ' count: ' + count)
+        data.append((sender_id, receiver_id,sender_isbusiness,receiver_isbusiness,count))
         results.append(count)
     try:
-        cursor.executemany(stmt2, data)
-        connection.commit()
+    	cursor.executemany(stmt2, data)
+    	connection.commit()
     except:
         connection.rollback()
     cursor.close()
@@ -140,7 +152,7 @@ if __name__ == "__main__":
     data_rdd_year_dayofweek_hour=data_rdd.map(lambda rdd: ((rdd[0][0],rdd[0][1],rdd[0][2]),rdd[1])).reduceByKey(lambda a,b:a+b).map(lambda rdd : (rdd[0][0],rdd[0][1],rdd[0][2],rdd[1]))
     #dayofweek, hour
     data_rdd_dayofweek_hour = data_rdd_year_dayofweek_hour.map(lambda rdd: ((rdd[1], rdd[2]), rdd[3])).reduceByKey(lambda a, b: a + b).map(lambda rdd: (rdd[0][0], rdd[0][1], rdd[1]))
-    data_rdd_hour = data_rdd_dayofweek_hour.map(lambda rdd: (rdd[1], rdd[2])).reduceByKey(lambda a, b: a + b).map(lambda rdd: (rdd[0][0], rdd[1]))
+    data_rdd_hour = data_rdd_dayofweek_hour.map(lambda rdd: (rdd[1], rdd[2])).reduceByKey(lambda a, b: a + b)
     table_created1 = sql_create_table(data_schema1)
     table_created2 = sql_create_table(data_schema2)
     table_created3 = sql_create_table(data_schema3)
