@@ -119,6 +119,7 @@ def write_user_data(partition):
 
 # To submit script:
 # $SPARK_HOME/bin/spark-submit --master spark://host:7077 --executor-memory 6G spark_batch.py
+# return ((year,month,date,hour,dayofweek,sender_id), 1)
 
 
 if __name__ == "__main__":
@@ -130,15 +131,7 @@ if __name__ == "__main__":
     data_rdd_hour_user = data_rdd.map(lambda rdd: ((rdd[0][5],rdd[0][3]),rdd[1])).reduceByKey(lambda a,b:a+b)
 
     data_rdd_hour = data_rdd_hour_dayofweek.map(lambda rdd: (rdd[0],rdd[2])).reduceByKey(lambda a,b:a+b)
-
-    # test by printing RDD content
-    #print('By hour and day:')
-    #for x in data_rdd_hour_dayofweek.collect():
-    #    print(x)
-    #print('By hour:')
-    #for x in data_rdd_hour.collect():
-    #    print(x)
-    # clean json data
+    print(data_rdd_hour.take(10))
 
     table_created1 = sql_create_table(data_schema1)
     table_created2 = sql_create_table(data_schema2)
@@ -153,7 +146,6 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if table_created3:
-    #    data_inserted3 = sql_insert_rdd_to_table(prepared_statement=stmt3,collected_rdd=data_rdd_hour_user.collect())
         written_entries = data_rdd_hour_user.mapPartitions(write_user_data)
     else:
         print('Cannot create table by hour and user')
