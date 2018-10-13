@@ -1,0 +1,40 @@
+<html>
+<head>
+
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> count vs hour, year </title>
+
+</head>
+<body>
+<h1> Count vs Hour, Year </h1>
+
+
+
+
+
+<table border="1" align="center">
+
+    <tr>
+    <th> year </th><th> hour </th><th> Sum(Count) </th>
+    </tr>
+    {% for x in details %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{{ script|safe }}
+{{ div|safe }}
+
+</body>
+</html>
