@@ -16,6 +16,7 @@ class Producer(threading.Thread):
     daemon = True
     
     def __init__(self, date):
+        super(Producer, self).__init__()
         self.year = date[0:4]
         self.month = date[4:6]
         self.day = date[6:8]
