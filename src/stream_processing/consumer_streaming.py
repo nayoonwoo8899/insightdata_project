@@ -1,3 +1,10 @@
+"""
+Python script for analyzing Kafka stream and writing to Redis.
+Usage:
+    consumer_streaming.py
+Author: Nayoon Woo (nayoonwoo8899@gmail.com)
+"""
+
 import threading
 import time
 import json
@@ -18,8 +25,6 @@ class Streaming(threading.Thread):
         self.redis_server = 'ec2-54-82-188-230.compute-1.amazonaws.com'
         self.redis_db = redis.StrictRedis(host=self.redis_server, port=6379, db=0)
 
-        # intiailize internal variables
-
     # Thread sets up consumer and consumes kafka messages
     def run(self):
         consumer = KafkaConsumer(bootstrap_servers='ec2-54-82-188-230.compute-1.amazonaws.com:9092')
@@ -33,9 +38,6 @@ class Streaming(threading.Thread):
     def analyze_message(self, json_obj):
         
         json_data = json.loads(json_obj)
-        print(json_obj)
-        #from_id = json_data['actor']['id']
-        #to_id = json_data['transactions'][0]['target']['id']
         timestamp = json_data['created_time']
         year=int(timestamp[0:4])
         month = int(timestamp[5:7])
@@ -48,11 +50,9 @@ class Streaming(threading.Thread):
         # read previous value from Redis        
         prev_hour=int(self.redis_db.get('hour'))
         counting=int(self.redis_db.get('counting'))
-        print('prev_hour: ' + str(prev_hour) + ' counting: ' + str(counting) + ' hour: ' + str(hour))
 
 
         if prev_hour==None or prev_hour!=hour:
-            print('year=',year,'month=',month,'date=',date,'day of week=',dayofweek,'hour=',hour, '# of transaction during past 1 hour=', counting)
             self.redis_db.set('year',year)
             self.redis_db.set('month',month)
             self.redis_db.set('date',date)
@@ -63,7 +63,6 @@ class Streaming(threading.Thread):
             self.redis_db.set('counting',1)
         
         else:
-            print('finally accumulating')
             self.redis_db.set('year',year)
             self.redis_db.set('month',month)
             self.redis_db.set('date',date)
@@ -76,7 +75,6 @@ class Streaming(threading.Thread):
        
                  
 if __name__ == "__main__":
-    counting=0
     thread = Streaming()
     
     while True:
