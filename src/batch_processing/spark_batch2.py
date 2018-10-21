@@ -161,6 +161,7 @@ if __name__ == "__main__":
     if table_created2:
         #data_inserted2 = sql_insert_rdd_to_table(prepared_statement=stmt2,collected_rdd=data_rdd_pair_business.collect())
         written_entries = data_rdd_pair_business.mapPartitions(write_pair_data)
+        print(written_entries.count())
     else:
         print('Cannot create table by pair of users and isbusiness')
         sys.exit(0)
