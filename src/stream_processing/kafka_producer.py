@@ -36,7 +36,6 @@ class Producer(threading.Thread):
         for json_obj in reversed(buffer):
             producer.send('venmo-transactions', json_obj)
             time.sleep(0.001)
-            print(json_obj + '\n' + '=================================================================' + '\n')
         
 def main():
     
@@ -51,9 +50,14 @@ def main():
     replay_date = args[1]
     
     # process data
-    producer = Producer(replay_date)
-    producer.start()
+    thread = Producer(replay_date)
     while True:
+        if not thread.isAlive():
+            print("Starting Kafka producer...")
+            thread.start()
+            print("Started Kafka producer.")
+        else:
+            print("Streaming new messages in topic: 'venmo-transactions'...")
         time.sleep(10)
     
         
