@@ -1,5 +1,3 @@
-#!/bin/env python -B
-
 """
 Python script for replaying Venmo data from Amazon S3 to simulate stream processing.
 Usage:
