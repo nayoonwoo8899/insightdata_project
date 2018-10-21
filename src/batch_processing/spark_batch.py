@@ -105,7 +105,7 @@ def write_user_data(partition):
         sender_id=x[0][1]
         hour=x[0][0]
         count=x[1]
-        data.append(hour,sender_id,count)
+        data.append((hour,sender_id,count))
         results.append(count)
     try:
         cursor.executemany(stmt3, data)
@@ -147,6 +147,7 @@ if __name__ == "__main__":
 
     if table_created3:
         written_entries = data_rdd_hour_user.mapPartitions(write_user_data)
+	print(written_entries.count())
     else:
         print('Cannot create table by hour and user')
         sys.exit(0)
