@@ -36,7 +36,7 @@ class Producer(threading.Thread):
         # Send data from buffer to Kafka queue
         for json_obj in reversed(buffer):
             producer.send('venmo-transactions', json_obj)
-            time.sleep(0.1)
+            time.sleep(0.001)
             print(json_obj + '\n' + '=================================================================' + '\n')
         
 def main():
