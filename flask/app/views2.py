@@ -34,7 +34,6 @@ def batch_hour():
         df = pd.read_sql("select year, sum(count) from Data_year_dayofweek_hour where year < 2017 group by year ", con=mysql.connection)
         source = ColumnDataSource(df)
         plot = figure(plot_width=500, plot_height=400, x_axis_label='year', y_axis_label='count')
-
         plot.vbar(x='year', source=source, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
                   line_color="orangered")
         script, div = components(plot)
@@ -196,6 +195,68 @@ def batch_year_dayofweek():
 
 
 
+@app.route('/ventra2/batch_result/user_2012/', methods=['GET'])
+def user_2012():
+    cur = mysql.connection.cursor()
+    cur2 = mysql.connection.cursor()
+    resultvalue = cur.execute("select * from s_2012")
+    resultvalue2=cur2.execute("select * from r_2012")
+    if resultvalue :
+        details = cur.fetchall()
+        cur.close()
+    if resultvalue2:
+        details2 = cur2.fetchall()
+        cur2.close()
+        return render_template('second_user_2012.html', details=details,details2=details2)
+    else:
+        cur.close()
+
+@app.route('/ventra2/batch_result/user_balance/', methods=['GET'])
+def user_balance():
+    cur2012 = mysql.connection.cursor()
+    cur2013= mysql.connection.cursor()
+    cur2014 = mysql.connection.cursor()
+    cur2015 = mysql.connection.cursor()
+    cur2016 = mysql.connection.cursor()
+    cur2017 = mysql.connection.cursor()
+
+    resultvalue2012 = cur2012.execute("select * from balance_2012")
+    resultvalue2013 = cur2013.execute("select * from balance_2013")
+    resultvalue2014 = cur2014.execute("select * from balance_2014")
+    resultvalue2015 = cur2015.execute("select * from balance_2015")
+    resultvalue2016 = cur2016.execute("select * from balance_2016")
+    resultvalue2017 = cur2017.execute("select * from balance_2017")
+
+    if resultvalue2012 :
+        details2012 = cur2012.fetchall()
+        cur2012.close()
+    if resultvalue2013:
+        details2013 = cur2013.fetchall()
+        cur2013.close()
+    if resultvalue2014:
+        details2014 = cur2014.fetchall()
+        cur2014.close()
+    if resultvalue2015:
+        details2015 = cur2015.fetchall()
+        cur2015.close()
+    if resultvalue2016:
+        details2016 = cur2016.fetchall()
+        cur2016.close()
+    if resultvalue2017:
+        details2017 = cur2017.fetchall()
+        cur2017.close()
+
+
+
+
+        return render_template('second_user_balance.html', details=details2012,details2=details2013,details3=details2014,details4=details2015,details5 = details2016,details6=details2017)
+    else:
+        cur2012.close()
+        cur2013.close()
+        cur2014.close()
+        cur2015.close()
+        cur2016.close()
+        cur2017.close()
 
 
 
@@ -205,6 +266,34 @@ def batch_year_dayofweek():
 
 
 
+
+
+
+
+
+
+
+
+"""
+@app.route('/ventra2/batch_result/year/', methods=['GET'])
+def batch_hour():
+
+    cur = mysql.connection.cursor()
+    resultvalue = cur.execute("select year, sum(count) from Data_year_dayofweek_hour where year < 2017 group by year ")
+    if resultvalue:
+        details = cur.fetchall()
+        cur.close()
+        df = pd.read_sql("select year, sum(count) from Data_year_dayofweek_hour where year < 2017 group by year ", con=mysql.connection)
+        source = ColumnDataSource(df)
+        plot = figure(plot_width=500, plot_height=400, x_axis_label='year', y_axis_label='count')
+        plot.vbar(x='year', source=source, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
+        script, div = components(plot)
+        return render_template('second_year.html', details=details, script=script, div=div)
+    else:
+        cur.close()
+
+"""
 
 
 
@@ -412,8 +501,8 @@ def batch_user_by_hour():
         cur.close()
 
 
-
-@app.route('/ventra/stream_result/data/', methods=['POST'])
+"""
+@app.route('/ventra2/stream_result/data/', methods=['POST'])
 def data():
     r = redis.StrictRedis(host='ec2-54-82-188-230.compute-1.amazonaws.com', port=6379, db=0)
     year = int(r.get('year'))
@@ -428,9 +517,9 @@ def data():
     return jsonify(x = [seconds], y = [count])
 
 
-@app.route('/ventra/stream_result/',methods=['GET'])
+@app.route('/ventra2/stream_result/',methods=['GET'])
 def streaming():
-    source = AjaxDataSource(data_url = request.url_root + 'ventra/stream_result/data/', polling_interval = 1000, mode = 'append')
+    source = AjaxDataSource(data_url = request.url_root + 'ventra2/stream_result/data/', polling_interval = 1000, mode = 'append')
     #plot = figure(plot_width=300, plot_height=300)
     plot = figure(plot_height=300,sizing_mode='scale_width')
     plot.line('x', 'y', source = source, line_width = 4)
@@ -438,4 +527,4 @@ def streaming():
     return render_template('seconds.html', script = script, div = div)
 
 
-"""
+

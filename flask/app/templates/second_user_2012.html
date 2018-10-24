@@ -1,0 +1,47 @@
+<html>
+<head>
+
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> User Analytics 2012 - Too 100 Senders and Receivers </title>
+
+</head>
+<body>
+<h1> User Analytics 2012 - Too 100 Senders and Receivers </h1>
+
+<table  style="float: left; width:30%">
+    <tr>
+    <th> Sender ID </th><th> Count </th>
+    </tr>
+    {% for x in details %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<!--<table border="1",style="display:inline-block">-->
+<table  style="float: left; width:30%">
+    <tr>
+    <th> Receiver ID </th><th> Count </th>
+    </tr>
+    {% for x in details2 %}
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+</body>
+</html>

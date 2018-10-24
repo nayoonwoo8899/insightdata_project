@@ -1,0 +1,93 @@
+<html>
+<head>
+
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+<title> User Analytics - Balance </title>
+
+</head>
+<body>
+<h4> 2012 : overlap 5% </h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h4> 2013 : overlap 12% </h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details2 %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h4> 2014 : overlap 2%</h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details3 %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h4> 2015 : overlap 3%</h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details4 %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h4> 2016 : overlap 2%</h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details5 %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h4> 2017 : overlap 2%</h4>
+<table  border="1" align="left">
+    <tr>
+    <th> ID </th><th> Sent </th><th> Received </th>
+    </tr>
+    {% for x in details6 %}
+
+    <tr>
+        <td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+</body>
+</html>
