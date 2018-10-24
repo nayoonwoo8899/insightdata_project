@@ -26,7 +26,6 @@ mysql = MySQL(app)
 @app.route('/ventra2/batch_result/year/', methods=['GET'])
 def batch_hour():
 
-
     cur = mysql.connection.cursor()
     resultvalue = cur.execute("select year, sum(count) from Data_year_dayofweek_hour where year < 2017 group by year ")
     if resultvalue:
@@ -45,34 +44,182 @@ def batch_hour():
 
 
 
-
-
-
 @app.route('/ventra2/batch_result/year_hour/', methods=['GET'])
 def batch_year_hour():
 
-
     cur = mysql.connection.cursor()
-    resultvalue = cur.execute("select year,hour,sum(count) from Data_year_dayofweek_hour group by hour,year")
+
+    resultvalue = cur.execute(
+        "select year,hour,sum(count) from Data_year_dayofweek_hour group by hour,year")
 
     if resultvalue:
         details = cur.fetchall()
         cur.close()
-        df = pd.read_sql("select year,hour,sum(count) from Data_year_dayofweek_hour group by hour,year", con=mysql.connection)
+
+        df = pd.read_sql("select year,hour,sum(count) from Data_year_dayofweek_hour where year=2011 group by hour,year",
+                         con=mysql.connection)
         source = ColumnDataSource(df)
+        plot = figure(title='2011', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot.vbar(x='hour', source=source, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
 
+        df2 = pd.read_sql("select year,hour,sum(count) from Data_year_dayofweek_hour where year=2012 group by hour,year",
+                         con=mysql.connection)
+        source2 = ColumnDataSource(df2)
+        plot2 = figure(title='2012', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot2.vbar(x='hour', source=source2, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
 
-        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count')
+        df3 = pd.read_sql(
+            "select year,hour,sum(count) from Data_year_dayofweek_hour where year=2013 group by hour,year",
+            con=mysql.connection)
+        source3 = ColumnDataSource(df3)
+        plot3 = figure(title='2013', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot3.vbar(x='hour', source=source3, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
 
-        plot.vbar_stack('year',x='hour',source=source ,width=0.5,color=['red','salmon','orange','yellow','green','blue','pink'])
-        #color=['red','salmon','orange','yellow','green','blue','pink']
+        df4 = pd.read_sql(
+            "select year,hour,sum(count) from Data_year_dayofweek_hour where year=2014 group by hour,year",
+            con=mysql.connection)
+        source4 = ColumnDataSource(df4)
+        plot4 = figure(title='2014', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot4.vbar(x='hour', source=source4, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+
+        df5 = pd.read_sql(
+            "select year,hour,sum(count) from Data_year_dayofweek_hour where year=2015 group by hour,year",
+            con=mysql.connection)
+        source5 = ColumnDataSource(df5)
+        plot5 = figure(title='2015', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot5.vbar(x='hour', source=source5, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+
+        df6 = pd.read_sql(
+            "select year,hour,sum(count) from Data_year_dayofweek_hour where year=2016 group by hour,year",
+            con=mysql.connection)
+        source6 = ColumnDataSource(df6)
+        plot6 = figure(title='2016', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot6.vbar(x='hour', source=source6, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+
+        df7 = pd.read_sql(
+            "select year,hour,sum(count) from Data_year_dayofweek_hour where year=2017 group by hour,year",
+            con=mysql.connection)
+        source7 = ColumnDataSource(df7)
+        plot7 = figure(title='2017', plot_width=300, plot_height=300, x_axis_label='hour', y_axis_label='count')
+        plot7.vbar(x='hour', source=source6, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
 
 
         script, div = components(plot)
-
-        return render_template('second_year_hour.html', details=details, script=script, div=div)
+        script2, div2 = components(plot2)
+        script3, div3 = components(plot3)
+        script4, div4 = components(plot4)
+        script5, div5 = components(plot5)
+        script6, div6 = components(plot6)
+        script7, div7 = components(plot7)
+        return render_template('second_year_hour.html', details=details, div=div,script=script,script2 = script2, div2 = div2,div3=div3,script3=script3,div4=div4,script4=script4,div5=div5,script5=script5,div6=div6,script6=script6,div7=div7,script7=script7)
     else:
         cur.close()
+
+
+
+@app.route('/ventra2/batch_result/year_dayofweek/', methods=['GET'])
+def batch_year_dayofweek():
+
+    cur = mysql.connection.cursor()
+    resultvalue = cur.execute(
+        "select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2012 group by dayofweek")
+
+    if resultvalue:
+        details = cur.fetchall()
+        cur.close()
+
+        df = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2011 group by dayofweek",
+                         con=mysql.connection)
+        source = ColumnDataSource(df)
+        plot = figure(title='2011', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot.vbar(x='dayofweek', source=source, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
+
+        df2 = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2012 group by dayofweek",
+                         con=mysql.connection)
+        source2 = ColumnDataSource(df2)
+        plot2 = figure(title='2012', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot2.vbar(x='dayofweek', source=source2, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
+
+        df3 = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2013 group by dayofweek",
+                         con=mysql.connection)
+        source3 = ColumnDataSource(df3)
+        plot3 = figure(title='2013', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot3.vbar(x='dayofweek', source=source3, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                  line_color="orangered")
+
+        df4 = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2014 group by dayofweek",
+            con=mysql.connection)
+        source4 = ColumnDataSource(df4)
+        plot4 = figure(title='2014', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot4.vbar(x='dayofweek', source=source4, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+        df5 = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2015 group by dayofweek",
+            con=mysql.connection)
+        source5 = ColumnDataSource(df5)
+        plot5 = figure(title='2015', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot5.vbar(x='dayofweek', source=source5, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+        df6 = pd.read_sql("select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2016 group by dayofweek",
+            con=mysql.connection)
+        source6 = ColumnDataSource(df6)
+        plot6 = figure(title='2016', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot6.vbar(x='dayofweek', source=source6, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+        df7 = pd.read_sql(
+            "select dayofweek,sum(count) from Data_year_dayofweek_hour where year=2017 group by dayofweek",
+            con=mysql.connection)
+        source7= ColumnDataSource(df7)
+        plot7 = figure(title='2017', plot_width=300, plot_height=300, x_axis_label='day of week', y_axis_label='count')
+        plot7.vbar(x='dayofweek', source=source7, width=1, top='sum(count)', fill_color="orangered", fill_alpha=0.5,
+                   line_color="orangered")
+
+        script, div = components(plot)
+        script2, div2 = components(plot2)
+        script3, div3 = components(plot3)
+        script4, div4 = components(plot4)
+        script5, div5 = components(plot5)
+        script6, div6 = components(plot6)
+        script7, div7 = components(plot7)
+
+        return render_template('second_year_dayofweek.html',details=details,div=div,script=script,div2=div2,script2=script2,div3=div3,script3=script3,div4=div4,script4=script4,div5=div5,script5=script5,div6=div6,script6=script6,div7=div7,script7=script7)
+    else:
+        cur.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,22 +240,6 @@ def batch_year_hour():
 
 
 """
-@app.route('/ventra2/batch_result/year_hour',methods=['GET'])
-def batch_hour():
-    cur = mysql.connection.cursor()
-    resultvalue=cur.execute("select * from Data_2015_Ver1")
-    if resultvalue:
-        details=cur.fetchall()
-        cur.close()
-        df = pd.read_sql('SELECT * FROM Data_2015_Ver1', con=mysql.connection)
-        source = ColumnDataSource(df)
-        plot = figure(plot_width=500, plot_height=400, x_axis_label='hour', y_axis_label='count', y_range=(0, 3.2*10**6),x_range=(-1, 24))
-
-        plot.vbar(x = 'hour', source = source, width = 1, top = 'count',fill_color="orangered",fill_alpha=0.5,line_color="orangered")
-        script, div = components(plot)
-        return render_template('batch_hour.html', details=details, script = script, div = div)
-    else:
-        cur.close()
 
 
 
@@ -147,6 +278,10 @@ def batch_dayofweek():
         return render_template('batch_dow.html', details = details, script = script, div = div)
     else:
         cur.close()
+
+
+
+
 
 
 @app.route('/ventra/batch_result/dayofweek_by_hour/', methods = ['GET', 'POST'])

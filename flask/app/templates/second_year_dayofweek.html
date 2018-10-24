@@ -11,25 +11,45 @@
 <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
 <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
 
-<title> count vs year </title>
+<title> Count vs Day of Week, year </title>
 
 </head>
 <body>
-<h1> Count vs Year </h1>
-
-<table border="1" align="center">
-    <tr>
-    <th> Year </th><th> Count </th>
-    </tr>
-    {% for x in details %}
-    <tr>
-        <td>{{x[0]}}</td><td>{{x[1]}}</td>
-    </tr>
-    {% endfor %}
-</table>
-
+<h1> Count vs Day of Week, Year </h1>
+<div>
 {{ script|safe }}
 {{ div|safe }}
+</div>
+
+<div2>
+    {{ script2|safe }}
+    {{ div2|safe }}
+</div2>
+
+<div3>
+{{ script3|safe }}
+{{ div3|safe }}
+</div3>
+
+<div4>
+{{ script4|safe }}
+{{ div4|safe }}
+</div4>
+
+<div5>
+{{ script5|safe }}
+{{ div5|safe }}
+</div5>
+
+<div6>
+{{ script6|safe }}
+{{ div6|safe }}
+</div6>
+
+<div7>
+{{ script7|safe }}
+{{ div7|safe }}
+</div7>
 
 </body>
 </html>
