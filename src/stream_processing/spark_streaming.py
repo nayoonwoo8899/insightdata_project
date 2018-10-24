@@ -44,8 +44,8 @@ def processPartition(partition):
         dayofweek = int(datetime.datetime(year, month, date).strftime('%w'))
 
         # read previous value from Redis
-        hour_string = self.redis_db.get('hour')
-        count_string = self.redis_db.get('counting')
+        hour_string = redis_db.get('hour')
+        count_string = redis_db.get('counting')
         prev_hour = None
         if hour_string != None:
             prev_hour=int(hour_string)
