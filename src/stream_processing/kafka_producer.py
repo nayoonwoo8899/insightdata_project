@@ -23,9 +23,6 @@ class Producer(threading.Thread):
 
     def run(self):
         producer = KafkaProducer(bootstrap_servers='localhost:9092')
-
-        bucket_name = 'venmo-json'
-        bucket = self.__get_s3_bucket__(bucket_name)
         
         # read and buffer data from S3
         buffer = []

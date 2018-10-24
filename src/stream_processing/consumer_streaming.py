@@ -47,9 +47,15 @@ class Streaming(threading.Thread):
         secc=int(timestamp[17:19])
         dayofweek=int(datetime.datetime(year, month, date).strftime('%w'))        
 
-        # read previous value from Redis        
-        prev_hour=int(self.redis_db.get('hour'))
-        counting=int(self.redis_db.get('counting'))
+        # read previous value from Redis
+        hour_string = self.redis_db.get('hour')
+        count_string = self.redis_db.get('counting')
+        prev_hour = None
+        if hour_string != None:
+            prev_hour=int(hour_string)
+        counting = None
+        if count_string != None:
+            counting=int(count_string)
 
 
         if prev_hour==None or prev_hour!=hour:
