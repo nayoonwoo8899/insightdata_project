@@ -45,7 +45,7 @@ def processPartition(partition):
 
         # read previous value from Redis
         #hour_string = redis_db.get('hour')
-        minn_string = redis_db.get('minn')
+        minn_string = redis_db.get('min')
         count_string = redis_db.get('counting')
         prev_minn = None
         if minn_string != None:
