@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1ef4922-464d-42bd-b393-f0bf9835f36f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/stream_processing/spark_streaming_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stream_processing/spark_streaming_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask/app/views2.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask/app/views2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +38,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="587" />
-          <entry key="py" value="3886" />
+          <entry key="py" value="3898" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
@@ -45,18 +46,18 @@
         <counts>
           <entry key="Bash" value="1" />
           <entry key="HTML" value="587" />
-          <entry key="Python" value="3886" />
+          <entry key="Python" value="3898" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flask/app/views2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="125" column="49" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="49" />
+            <state relative-caret-position="570">
+              <caret line="528" lean-forward="true" selection-start-line="528" selection-end-line="528" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -71,10 +72,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stream_processing/spark_streaming_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
+            <state relative-caret-position="116">
               <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
               <folding>
                 <element signature="e#325#335#0" expanded="true" />
@@ -178,10 +179,10 @@
         <option value="$PROJECT_DIR$/flask/app/templates/second_year_dayofweek.html" />
         <option value="$PROJECT_DIR$/flask/app/templates/second_user.html" />
         <option value="$PROJECT_DIR$/flask/app/templates/second_user_2012.html" />
-        <option value="$PROJECT_DIR$/flask/app/views2.py" />
         <option value="$PROJECT_DIR$/flask/app/templates/second_user_balance.html" />
         <option value="$PROJECT_DIR$/src/stream_processing/run_streaming2.sh" />
         <option value="$PROJECT_DIR$/src/stream_processing/spark_streaming_2.py" />
+        <option value="$PROJECT_DIR$/flask/app/views2.py" />
       </list>
     </option>
   </component>
@@ -431,16 +432,6 @@
     <entry file="file://$PROJECT_DIR$/src/stream_processing/kafka_producer.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/flask/app/views2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="125" column="49" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stream_processing/spark_streaming.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-619" />
@@ -455,10 +446,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stream_processing/spark_streaming_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
+        <state relative-caret-position="116">
           <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
           <folding>
             <element signature="e#325#335#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flask/app/views2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="528" lean-forward="true" selection-start-line="528" selection-end-line="528" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

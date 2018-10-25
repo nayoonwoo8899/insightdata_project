@@ -521,7 +521,7 @@ def data():
 def streaming():
     source = AjaxDataSource(data_url = request.url_root + 'ventra2/stream_result/data/', polling_interval = 1000, mode = 'append')
     #plot = figure(plot_width=300, plot_height=300)
-    plot = figure(plot_height=300,sizing_mode='scale_width')
+    plot = figure(plot_height=300,sizing_mode='scale_width',x_axis_label='time (sec)', y_axis_label='count')
     plot.line('x', 'y', source = source, line_width = 4)
     script, div = components(plot)
     return render_template('seconds.html', script = script, div = div)
